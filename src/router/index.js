@@ -1,6 +1,7 @@
 import { createRouter } from "vue-router/auto";
 
 import LoginView from "@/views/LoginView.vue";
+import AboutView from "@/views/AboutView.vue";
 
 import LotDesignerView from "@/views/designer/LotDesignerView.vue";
 
@@ -47,6 +48,14 @@ const routes = [
     props: route => ({
       username: String(route.params.username)
     })
+  },
+  {
+    path: "/about",
+    name: "aboutPage",
+    component: AboutView,
+    meta: {
+      pageTitle: "О нас"
+    }
   },
   {
     path: "/login",
@@ -125,6 +134,7 @@ export default function (history, store) {
       && !to.path.startsWith("/lotInfo")
       && !to.path.startsWith("/userInfo")
       && to.path !== "/"
+      && to.path !== "/about"
       && to.path !== "/login") {
       next("/login");
     } else if (to.path === "/login" && store.getters.isAuthorized) {

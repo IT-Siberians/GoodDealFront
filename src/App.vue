@@ -136,6 +136,17 @@
 
         </template>
 
+        <v-list-item link
+                     color="primary"
+                     :to="{ name: 'aboutPage' }"
+                     exact>
+          <template v-slot:prepend>
+            <v-icon>mdi-information-outline</v-icon>
+          </template>
+
+          <v-list-item-title>О нас</v-list-item-title>
+        </v-list-item>
+
       </v-list>
     </v-navigation-drawer>
 
