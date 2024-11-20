@@ -1,19 +1,20 @@
 <template>
-  <div class="login-view">
+  <div class="back-door-view">
 
     <v-container>
       <v-row>
-        <v-col cols="0" sm="4" md="4" xl="5"></v-col>
-        <v-col cols="12" sm="4" md="3" xl="2">
-          <v-card title="Пользователи" class="text-tabular">
-            <v-list lines="one" class="mt-n3">
+        <v-col cols="0" sm="2" md="3" xl="4"></v-col>
+        <v-col cols="12" sm="8" md="6" xl="4">
+          <v-card title="Вход для пользователей:" class="text-tabular">
+            <v-list lines="one" class="mt-n3 ma-6">
               <v-list-item v-for="user in users" :key="user.id"
                            @click="login(user)"
+                           prepend-icon="mdi-account-tie"
                            :title="user.username" />
             </v-list>
           </v-card>
         </v-col>
-        <v-col cols="0" sm="4" md="5" xl="5"></v-col>
+        <v-col cols="0" sm="2" md="3" xl="4"></v-col>
       </v-row>
     </v-container>
 
@@ -24,32 +25,10 @@
   import { mapState } from "vuex";
 
   export default {
-    components: {
-
-    },
-
-    data() {
-      return {
-
-      };
-    },
-
-    created() {
-
-    },
-
-    mounted() {
-
-    },
-
     computed: {
       ...mapState([
-        "userName", "userId", "users"
+        "users"
       ])
-    },
-
-    watch: {
-
     },
 
     methods: {

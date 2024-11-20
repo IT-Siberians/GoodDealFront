@@ -5,6 +5,7 @@ import WalletService from "@/services/walletService";
 import ArchiveService from "@/services/archiveService";
 import ProfileService from "@/services/profileService";
 import TradingService from "@/services/tradingService";
+import AuthenticationService from "@/services/authenticationService";
 
 function addToast(state, message, variant) {
   let title;
@@ -50,6 +51,7 @@ export default createStore({
     archiveService: new ArchiveService(),
     profileService: new ProfileService(),
     tradingService: new TradingService(),
+    authenticationService: new AuthenticationService(),
 
     // All:
 
@@ -76,7 +78,9 @@ export default createStore({
     userId: null, //"11111111-5717-4562-b3fc-111100004444", //window.GoodDeal.UserId,
     userName: null, //"mike", //window.GoodDeal.UserName,
 
-    passwordOptions: null,
+    // Authentication:
+
+    registeringUser: null,
 
     // Profile:
 
@@ -97,7 +101,7 @@ export default createStore({
     // Trading:
 
     tradedLots: [],
-    selectedTradedLot: null,
+    selectedTradedLot: null
   },
 
   getters: {
@@ -184,6 +188,12 @@ export default createStore({
       state.loadingsCount = Math.max(state.loadingsCount - 1, 0);
     },
 
+    // Authentication:
+
+    setRegisteringUser(state, newValue) {
+      state.registeringUser = newValue;
+    },
+
     // Profile:
 
     setProfile(state, newValue) {
@@ -230,6 +240,80 @@ export default createStore({
   },
 
   actions: {
+    // Authentication:
+
+    registerUser({ state, commit }, request) {
+      commit("startLoading");
+      return state.authenticationService
+        .registerUser(request)
+        .then(response => commit("setRegisteringUser", response.data))
+        .catch(reason => commit("error", reason))
+        .finally(() => commit("stopLoading"));
+    },
+
+    confirmEmail({ state, commit }, request) {
+      commit("startLoading");
+      return state.authenticationService
+        .confirmEmail(request)
+        .catch(reason => commit("error", reason))
+        .finally(() => commit("stopLoading"));
+    },
+
+    login({ state, commit }, request) {
+      commit("startLoading");
+      return state.authenticationService
+        .login(request)
+        .then(response => commit("loginUser", { id: response.data.data, username: request.login }))
+        .catch(reason => commit("error", reason))
+        .finally(() => commit("stopLoading"));
+    },
+
+    logout({ state, commit }, request) {
+      commit("startLoading");
+      return state.authenticationService
+        .logout(request)
+        .then(() => commit("logoutUser"))
+        .catch(reason => commit("error", reason))
+        .finally(() => commit("stopLoading"));
+    },
+
+    // Profile:
+
+    loadProfileById({ state, commit }, id) {
+      commit("startLoading");
+      return state.profileService
+        .getProfileById(id)
+        .then(response => commit("setProfile", response.data))
+        .catch(reason => commit("error", reason))
+        .finally(() => commit("stopLoading"));
+    },
+
+    loadProfileByUsername({ state, commit }, username) {
+      commit("startLoading");
+      return state.profileService
+        .getProfileByUsername(username)
+        .then(response => commit("setSelectedUserProfile", response.data))
+        .catch(reason => commit("error", reason))
+        .finally(() => commit("stopLoading"));
+    },
+
+    updateProfile({ state, commit }, { id, request }) {
+      commit("startLoading");
+      return state.profileService
+        .updateProfile(id, request)
+        .then(response => commit("setProfile", response.data))
+        .catch(reason => commit("error", reason))
+        .finally(() => commit("stopLoading"));
+    },
+
+    deleteProfile({ state, commit }, id) {
+      commit("startLoading");
+      return state.profileService
+        .deleteProfile(id)
+        .catch(reason => commit("error", reason))
+        .finally(() => commit("stopLoading"));
+    },
+
     // Archive:
 
     loadBoughtLots({ state, commit }, { buyerId, params }) {
@@ -294,43 +378,6 @@ export default createStore({
           commit("success", response.data.message);
           return Promise.resolve(response);
         })
-        .catch(reason => commit("error", reason))
-        .finally(() => commit("stopLoading"));
-    },
-
-    // Profile:
-
-    loadProfileById({ state, commit }, id) {
-      commit("startLoading");
-      return state.profileService
-        .getProfileById(id)
-        .then(response => commit("setProfile", response.data))
-        .catch(reason => commit("error", reason))
-        .finally(() => commit("stopLoading"));
-    },
-
-    loadProfileByUsername({ state, commit }, username) {
-      commit("startLoading");
-      return state.profileService
-        .getProfileByUsername(username)
-        .then(response => commit("setSelectedUserProfile", response.data))
-        .catch(reason => commit("error", reason))
-        .finally(() => commit("stopLoading"));
-    },
-
-    updateProfile({ state, commit }, { id, request }) {
-      commit("startLoading");
-      return state.profileService
-        .updateProfile(id, request)
-        .then(response => commit("setProfile", response.data))
-        .catch(reason => commit("error", reason))
-        .finally(() => commit("stopLoading"));
-    },
-
-    deleteProfile({ state, commit }, id) {
-      commit("startLoading");
-      return state.profileService
-        .deleteProfile(id)
         .catch(reason => commit("error", reason))
         .finally(() => commit("stopLoading"));
     },

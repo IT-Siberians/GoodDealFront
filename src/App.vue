@@ -42,10 +42,34 @@
                      :to="{ name: 'loginPage' }"
                      exact>
           <template v-slot:prepend>
-            <v-icon>mdi-login-variant</v-icon>
+            <v-icon>mdi-gate</v-icon>
           </template>
 
-          <v-list-item-title>Вход</v-list-item-title>
+          <v-list-item-title>Парадный вход</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item v-if="!isAuthorized"
+                     link
+                     color="primary"
+                     :to="{ name: 'backDoorPage' }"
+                     exact>
+          <template v-slot:prepend>
+            <v-icon>mdi-gate-open</v-icon>
+          </template>
+
+          <v-list-item-title>Чёрный ход</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item v-if="!isAuthorized"
+                     link
+                     color="primary"
+                     :to="{ name: 'registrationPage' }"
+                     exact>
+          <template v-slot:prepend>
+            <v-icon>mdi-account-plus</v-icon>
+          </template>
+
+          <v-list-item-title>Регистрация</v-list-item-title>
         </v-list-item>
 
         <template v-if="isAuthorized">
@@ -321,7 +345,7 @@
       },
 
       isLoginPage() {
-        return this.pageName === "loginPage";
+        return this.pageName === "loginPage" || this.pageName === "backDoorPage";
       },
 
       colorThemeName() {

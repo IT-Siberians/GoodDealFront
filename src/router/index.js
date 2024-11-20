@@ -1,7 +1,10 @@
 import { createRouter } from "vue-router/auto";
 
-import LoginView from "@/views/LoginView.vue";
 import AboutView from "@/views/AboutView.vue";
+
+import LoginView from "@/views/account/LoginView.vue";
+import BackDoorView from "@/views/account/BackDoorView.vue";
+import RegistrationView from "@/views/account/RegistrationView.vue";
 
 import LotDesignerView from "@/views/designer/LotDesignerView.vue";
 
@@ -58,11 +61,27 @@ const routes = [
     }
   },
   {
+    path: "/backDoor",
+    name: "backDoorPage",
+    component: BackDoorView,
+    meta: {
+      pageTitle: "Чёрный ход"
+    }
+  },
+  {
     path: "/login",
     name: "loginPage",
     component: LoginView,
     meta: {
-      pageTitle: "Вход"
+      pageTitle: "Парадный вход"
+    }
+  },
+  {
+    path: "/registration",
+    name: "registrationPage",
+    component: RegistrationView,
+    meta: {
+      pageTitle: "Регистрация"
     }
   },
   {
@@ -135,6 +154,8 @@ export default function (history, store) {
       && !to.path.startsWith("/userInfo")
       && to.path !== "/"
       && to.path !== "/about"
+      && to.path !== "/backDoor"
+      && to.path !== "/registration"
       && to.path !== "/login") {
       next("/login");
     } else if (to.path === "/login" && store.getters.isAuthorized) {
