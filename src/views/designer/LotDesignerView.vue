@@ -151,15 +151,15 @@
           startPrice: this.startPrice,
           bidIncrement: this.bidIncrement,
           repurchasePrice: this.repurchasePrice,
-          startDate: this.currentDateTime,
-          endDate: this.currentDateTime.plus({ hours: this.hoursCount })
+          startDate: this.currentDateTime.setZone("utc"),
+          endDate: this.currentDateTime.plus({ hours: this.hoursCount }).setZone("utc")
         };
 
         this.$store.dispatch("createTradedLot", request)
           .then(() => {
             this.$router.push({ name: 'lotInfoPage', params: { lotId: request.id } });
           });
-      }
+      },
     }
   };
 </script>
