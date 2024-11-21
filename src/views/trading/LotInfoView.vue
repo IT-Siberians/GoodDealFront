@@ -55,6 +55,14 @@
                   {{nextMinBid}}
                 </span>
               </v-list-item>
+              <v-list-item title="Продавец:">
+                <span class="text-h6 text-secondary">
+                  <router-link class="text-primary"
+                               :to="{ name: 'userInfoPage', params: { username: selectedTradedLot.sellerUsername }}">
+                    {{selectedTradedLot.sellerUsername}}
+                  </router-link>
+                </span>
+              </v-list-item>
             </v-list>
 
             <v-card-actions class="mr-2 mb-2 mt-n2">
