@@ -36,13 +36,19 @@
             </v-form>
             <v-card-actions class="mr-2 mb-2 mt-n4">
               <v-spacer />
+              <v-btn v-if="username"
+                     :to="{ name: 'userInfoPage', params: { username: username }}"
+                     color="secondary"
+                     text="Посмотреть"
+                     variant="elevated" />
               <v-btn @click="setParameters"
-                     class="mr-2"
+                     class="ml-2"
                      color="secondary"
                      :disabled="!isDifference"
                      text="Отменить"
                      variant="elevated" />
               <v-btn @click="updateProfile"
+                     class="ml-2"
                      color="primary"
                      :disabled="!isDifference || !isValid"
                      text="Сохранить"
