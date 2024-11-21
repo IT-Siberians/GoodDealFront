@@ -3,7 +3,7 @@ import axios from "axios";
 export default class Service {
   constructor() {
     this.url = "http://195.133.77.113:9001/api/v1/";
-    axios.defaults.timeout = 1000;
+    axios.defaults.timeout = 5000;
   }
 
   login(request) {

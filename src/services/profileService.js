@@ -2,9 +2,9 @@ import axios from "axios";
 
 export default class Service {
   constructor() {
-    this.url = "https://localhost:7117/api/v1/UserProfile/";
-    //this.url = "http://195.133.77.113:8080/api/v1/UserProfile/";
-    axios.defaults.timeout = 1000;
+    //this.url = "https://localhost:7117/api/v1/UserProfile/";
+    this.url = "http://195.133.77.113:9002/api/v1/UserProfile/";
+    axios.defaults.timeout = 5000;
   }
 
   getProfileById(id) {

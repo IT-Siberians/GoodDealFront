@@ -3,7 +3,7 @@
 export default class Service {
   constructor() {
     this.url = "https://localhost:7142/api/v1/Owner/";
-    axios.defaults.timeout = 1000;
+    axios.defaults.timeout = 5000;
   }
 
   getWalletBalance(ownerId) {

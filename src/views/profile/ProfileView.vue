@@ -6,7 +6,7 @@
         <v-col cols="0" sm="2" md="3"></v-col>
         <v-col cols="12" sm="8" md="6">
           <v-card title="Профиль пользователя" class="text-tabular">
-            <v-form @submit.prevent class="pa-2">
+            <v-form @submit.prevent class="pa-4">
               <v-text-field class=""
                             disabled
                             clearable

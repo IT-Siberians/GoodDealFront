@@ -3,7 +3,7 @@ import axios from "axios";
 export default class Service {
   constructor() {
     this.url = "https://localhost:7057/api/v1/";
-    axios.defaults.timeout = 1000;
+    axios.defaults.timeout = 5000;
   }
 
   getTradedLots() {
