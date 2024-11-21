@@ -245,6 +245,7 @@
         this.$store.dispatch("cancelTradedLot", request)
           .then(() => {
             this.loadLotInfo();
+            this.showConfirmationDialog = false;
           });
       },
       createBid(moneyValue) {
