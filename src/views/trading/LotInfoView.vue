@@ -36,25 +36,49 @@
                   {{selectedTradedLot.repurchasePrice}}
                 </span>
               </v-list-item>
-              <v-list-item title="Текущая ставка:">
-                <div v-if="isUserBid">
-                  <v-badge inline content="Ваша ставка" color="primary" class="ml-n1">
+              <template v-if="isActive">
+                <v-list-item title="Текущая ставка:">
+                  <div v-if="isUserBid">
+                    <v-badge inline content="Ваша ставка" color="primary" class="ml-n1">
+                      <span class="text-h6 text-secondary">
+                        {{currentBid}} ₽
+                      </span>
+                    </v-badge>
+                  </div>
+                  <div v-else>
                     <span class="text-h6 text-secondary">
-                      {{currentBid}}
+                      {{currentBid}} ₽
                     </span>
-                  </v-badge>
-                </div>
-                <div v-else>
+                  </div>
+                </v-list-item>
+                <v-list-item title="Минимальная следующая ставка:">
                   <span class="text-h6 text-secondary">
-                    {{currentBid}} ₽
+                    {{nextMinBid}} ₽
                   </span>
-                </div>
-              </v-list-item>
-              <v-list-item title="Минимальная следующая ставка:">
-                <span class="text-h6 text-secondary">
-                  {{nextMinBid}} ₽
-                </span>
-              </v-list-item>
+                </v-list-item>
+              </template>
+              <template v-else>
+                <v-list-item title="Начальная цена:">
+                  <span class="text-h6 text-secondary">
+                    {{selectedTradedLot.startPrice}} ₽
+                  </span>
+                </v-list-item>
+                <v-list-item v-if="isCompleted"
+                             title="Выкуплен за:">
+                  <div v-if="isUserBid">
+                    <v-badge inline content="Ваша ставка" color="primary" class="ml-n1">
+                      <span class="text-h6 text-secondary">
+                        {{currentBid}} ₽
+                      </span>
+                    </v-badge>
+                  </div>
+                  <div v-else>
+                    <span class="text-h6 text-secondary">
+                      {{currentBid}} ₽
+                    </span>
+                  </div>
+                </v-list-item>
+              </template>
               <v-list-item title="Продавец:">
                 <span class="text-h6 text-secondary">
                   <router-link class="text-primary"
@@ -65,7 +89,21 @@
               </v-list-item>
             </v-list>
 
-            <v-card-actions class="mr-2 mb-2 mt-n2">
+            <div class="mx-4 mb-4 d-flex flex-row-reverse">
+              <v-chip v-if="isCompleted"
+                      variant="elevated"
+                      color="primary">
+                Лот выкуплен
+              </v-chip>
+              <v-chip v-if="isCanceled"
+                      variant="elevated"
+                      color="primary">
+                Лот отменён
+              </v-chip>
+            </div>
+
+            <v-card-actions v-if="isActive"
+                            class="mr-2 mb-2 mt-n2">
               <v-spacer />
               <v-btn @click="loadLotInfo"
                      class="m1-2"
@@ -225,6 +263,27 @@
       },
       canMakeBid() {
         return this.isAuthorized && !this.isUserLot && !this.isUserBid;
+      },
+      isActive() {
+        if (!this.selectedTradedLot) {
+          return false;
+        }
+
+        return this.selectedTradedLot.status === 0;
+      },
+      isCanceled() {
+        if (!this.selectedTradedLot) {
+          return false;
+        }
+
+        return this.selectedTradedLot.status === 1;
+      },
+      isCompleted() {
+        if (!this.selectedTradedLot) {
+          return false;
+        }
+
+        return this.selectedTradedLot.status === 2;
       }
     },
 
