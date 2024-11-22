@@ -26,10 +26,18 @@
       </v-row>
       <v-row v-if="tradedLots">
         <v-col cols="12" sm="6" md="4" lg="3" xl="2"
-               v-for="lot in filteredLots" :key="lot.id">
+               v-for="lot in filteredLots" :key="lot.lot.id">
           <v-card class="py-3 px-4 text-h6 text-decoration-none"
-                  :to="{ name: 'lotInfoPage', params: { lotId: lot.id }}">
-            {{lot.title}}
+                  :to="{ name: 'lotInfoPage', params: { lotId: lot.lot.id }}">
+            <p>
+              {{lot.lot.title}}
+            </p>
+            <v-chip variant="elevated">
+              {{lot.lot.sellerUsername}}
+            </v-chip>
+            <v-chip variant="elevated" class="ml-2" color="primary">
+              {{lot.price}} ₽
+            </v-chip>
           </v-card>
         </v-col>
       </v-row>
@@ -67,17 +75,24 @@
         "userName", "userId", "currentLocale", "tradedLots"
       ]),
 
+      lotsAndPrices() {
+        return this.tradedLots.map(e => ({
+          lot: e,
+          price: !e.lastBid ? e.startPrice : e.lastBid.amount
+        }));
+      },
+
       filteredLots() {
-        let lots = this.tradedLots;
+        let lots = this.lotsAndPrices;
 
         if (this.withString) {
           const withStr = this.withString.toLowerCase();
-          lots = lots.filter(e => e.title.toLowerCase().includes(withStr));
+          lots = lots.filter(e => e.lot.title.toLowerCase().includes(withStr));
         }
 
         if (this.withoutString) {
           const without = this.withoutString.toLowerCase();
-          lots = lots.filter(e => !e.title.toLowerCase().includes(without));
+          lots = lots.filter(e => !e.lot.title.toLowerCase().includes(without));
         }
 
         return lots;

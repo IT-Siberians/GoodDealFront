@@ -46,13 +46,13 @@
                 </div>
                 <div v-else>
                   <span class="text-h6 text-secondary">
-                    {{currentBid}}
+                    {{currentBid}} ₽
                   </span>
                 </div>
               </v-list-item>
               <v-list-item title="Минимальная следующая ставка:">
                 <span class="text-h6 text-secondary">
-                  {{nextMinBid}}
+                  {{nextMinBid}} ₽
                 </span>
               </v-list-item>
               <v-list-item title="Продавец:">
