@@ -10,6 +10,8 @@ import LotDesignerView from "@/views/designer/LotDesignerView.vue";
 
 import TradedLotsView from "@/views/trading/TradedLotsView.vue";
 import LotInfoView from "@/views/trading/LotInfoView.vue";
+import LotsForSaleView from "@/views/trading/LotsForSaleView.vue";
+import LotsForPurchaseView from "@/views/trading/LotsForPurchaseView.vue";
 
 import ProfileView from "@/views/profile/ProfileView.vue";
 import UserInfoView from "@/views/profile/UserInfoView.vue";
@@ -41,6 +43,24 @@ const routes = [
       lotId: String(route.params.lotId)
     })
   },
+
+  {
+    path: "/lotsForSale",
+    name: "lotsForSalePage",
+    component: LotsForSaleView,
+    meta: {
+      pageTitle: "Я продаю"
+    }
+  },
+  {
+    path: "/lotsForPurchase",
+    name: "lotsForPurchasePage",
+    component: LotsForPurchaseView,
+    meta: {
+      pageTitle: "Я покупаю"
+    }
+  },
+
   {
     path: "/userInfo/:username",
     name: "userInfoPage",
@@ -60,6 +80,7 @@ const routes = [
       pageTitle: "О нас"
     }
   },
+
   {
     path: "/backDoor",
     name: "backDoorPage",
@@ -84,6 +105,7 @@ const routes = [
       pageTitle: "Регистрация"
     }
   },
+
   {
     path: "/lotDesigner",
     name: "lotDesignerPage",
@@ -92,6 +114,7 @@ const routes = [
       pageTitle: "Дизайнер лота"
     }
   },
+
   {
     path: "/boughtLots",
     name: "boughtLotsPage",
@@ -116,6 +139,7 @@ const routes = [
       pageTitle: "Отменённые лоты"
     }
   },
+
   {
     path: "/profile",
     name: "profilePage",
@@ -124,6 +148,7 @@ const routes = [
       pageTitle: "Профиль пользователя"
     }
   },
+
   {
     path: "/wallet",
     name: "walletPage",

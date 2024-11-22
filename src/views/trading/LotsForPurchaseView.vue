@@ -1,9 +1,9 @@
 <template>
-  <div class="traded-lots-view">
+  <div class="lots-for-purchase-view">
 
     <v-container>
       <v-row>
-        <v-col cols="12" sm="9" md="10" xl="11"><h2 class="text-primary">Продаваемые лоты</h2></v-col>
+        <v-col cols="12" sm="9" md="10" xl="11"><h2 class="text-primary">Я покупаю</h2></v-col>
         <v-col cols="12" sm="3" md="2" xl="1">
           <v-btn @click="loadLots"
                  class="w-100"
@@ -32,17 +32,27 @@
             <p>
               {{lot.lot.title}}
             </p>
-            <v-chip variant="elevated">
-              {{lot.lot.sellerUsername}}
-            </v-chip>
-            <v-chip variant="elevated" class="ml-2" color="primary">
-              {{lot.price}} ₽
-            </v-chip>
+            <p>
+              <v-chip v-if="lot.lot.lastBid.customerId === userId"
+                      variant="elevated"
+                      color="success">
+                Ваша ставка: {{lot.price}} ₽
+              </v-chip>
+              <v-chip v-else
+                      variant="elevated"
+                      color="error">
+                Чужая ставка: {{lot.price}} ₽
+              </v-chip>
+            </p>
+            <p class="mt-2">
+              <v-chip variant="elevated">
+                {{lot.lot.sellerUsername}}
+              </v-chip>
+            </p>
           </v-card>
         </v-col>
       </v-row>
     </v-container>
-
   </div>
 </template>
 
@@ -72,11 +82,19 @@
 
     computed: {
       ...mapState([
-        "userName", "userId", "currentLocale", "tradedLots"
+        "userName", "userId", "currentLocale", "selectedCustomer"
       ]),
 
+      userLots() {
+        if (!this.selectedCustomer) {
+          return [];
+        }
+
+        return this.selectedCustomer.observedAuctionLots;
+      },
+
       lotsAndPrices() {
-        return this.tradedLots.map(e => ({
+        return this.userLots.map(e => ({
           lot: e,
           price: !e.lastBid ? e.startPrice : e.lastBid.amount
         }));
@@ -105,7 +123,11 @@
 
     methods: {
       loadLots() {
-        this.$store.dispatch("loadTradedLots");
+        if (!this.userId) {
+          return;
+        }
+
+        this.$store.dispatch("loadSelectedCustomer", this.userId);
       },
 
       getDate(isoDateTime) {

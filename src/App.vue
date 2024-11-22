@@ -86,7 +86,33 @@
           </v-list-item>
 
           <v-list-item class="mb-n2">
-            <v-list-item-title>Лоты:</v-list-item-title>
+            <v-list-item-title>Торги:</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item link
+                       color="primary"
+                       :to="{ name: 'lotsForPurchasePage' }"
+                       exact>
+            <template v-slot:prepend>
+              <v-icon>mdi-cart-arrow-down</v-icon>
+            </template>
+
+            <v-list-item-title>Я покупаю</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item link
+                       color="primary"
+                       :to="{ name: 'lotsForSalePage' }"
+                       exact>
+            <template v-slot:prepend>
+              <v-icon>mdi-cart-arrow-up</v-icon>
+            </template>
+
+            <v-list-item-title>Я продаю</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item class="mb-n2">
+            <v-list-item-title>Архивные лоты:</v-list-item-title>
           </v-list-item>
 
           <v-list-item link

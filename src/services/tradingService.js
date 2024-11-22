@@ -18,6 +18,10 @@ export default class Service {
     return axios.post(this.url + "AuctionLots", request);
   }
 
+  getCustomerById(id) {
+    return axios.get(this.url + "Customers/" + id);
+  }
+
   createBid(request) {
     return axios.post(this.url + "Customers/Add bid", request);
   }

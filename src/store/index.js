@@ -101,7 +101,8 @@ export default createStore({
     // Trading:
 
     tradedLots: [],
-    selectedTradedLot: null
+    selectedTradedLot: null,
+    selectedCustomer: null,
   },
 
   getters: {
@@ -236,6 +237,10 @@ export default createStore({
 
     setSelectedTradedLot(state, newValue) {
       state.selectedTradedLot = newValue;
+    },
+
+    setSelectedCustomer(state, newValue) {
+      state.selectedCustomer = newValue;
     },
   },
 
@@ -398,6 +403,15 @@ export default createStore({
       return state.tradingService
         .getTradedLotById(id)
         .then(response => commit("setSelectedTradedLot", response.data))
+        .catch(reason => commit("error", reason))
+        .finally(() => commit("stopLoading"));
+    },
+
+    loadSelectedCustomer({ state, commit }, id) {
+      commit("startLoading");
+      return state.tradingService
+        .getCustomerById(id)
+        .then(response => commit("setSelectedCustomer", response.data))
         .catch(reason => commit("error", reason))
         .finally(() => commit("stopLoading"));
     },

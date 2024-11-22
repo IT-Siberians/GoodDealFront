@@ -1,9 +1,9 @@
 <template>
-  <div class="traded-lots-view">
+  <div class="lots-for-sale-view">
 
     <v-container>
       <v-row>
-        <v-col cols="12" sm="9" md="10" xl="11"><h2 class="text-primary">Продаваемые лоты</h2></v-col>
+        <v-col cols="12" sm="9" md="10" xl="11"><h2 class="text-primary">Я продаю</h2></v-col>
         <v-col cols="12" sm="3" md="2" xl="1">
           <v-btn @click="loadLots"
                  class="w-100"
@@ -75,8 +75,12 @@
         "userName", "userId", "currentLocale", "tradedLots"
       ]),
 
+      userLots() {
+        return this.tradedLots.filter(e => e.sellerUsername === this.userName);
+      },
+
       lotsAndPrices() {
-        return this.tradedLots.map(e => ({
+        return this.userLots.map(e => ({
           lot: e,
           price: !e.lastBid ? e.startPrice : e.lastBid.amount
         }));
